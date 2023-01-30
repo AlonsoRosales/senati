@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity
 @Table(name = "cloud_usuario")
 @Data
-public class User {
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "us_idusuario")

@@ -1,6 +1,6 @@
 package com.api.senati.Security;
 
-import com.api.senati.Entity.User;
+import com.api.senati.Entity.Usuario;
 import com.api.senati.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +16,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println(username);
-        User usuario= userRepository.findByUsuario(username).orElseThrow(() -> new UsernameNotFoundException("El usuario con username "+username+" no existe."));
+        Usuario usuario= userRepository.findByUsuario(username).orElseThrow(() -> new UsernameNotFoundException("El usuario con username "+username+" no existe."));
         System.out.println(usuario.getUsuario());
         return new UserDetailsImpl(usuario);
 

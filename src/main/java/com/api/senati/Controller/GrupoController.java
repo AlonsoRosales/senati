@@ -1,4 +1,4 @@
 package com.api.senati.Controller;
 
-public class LoginController {
+public class GrupoController {
 }

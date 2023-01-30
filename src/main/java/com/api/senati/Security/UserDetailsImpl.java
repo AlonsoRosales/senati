@@ -1,6 +1,6 @@
 package com.api.senati.Security;
 
-import com.api.senati.Entity.User;
+import com.api.senati.Entity.Usuario;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -12,7 +12,7 @@ import java.util.Collections;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final User user;
+    private final Usuario usuario;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
@@ -20,12 +20,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return usuario.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUsuario();
+        return usuario.getUsuario();
     }
 
     @Override
@@ -49,6 +49,6 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     public String getName(){
-        return user.getUsuario();
+        return usuario.getUsuario();
     }
 }
