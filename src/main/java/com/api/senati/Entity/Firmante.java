@@ -21,17 +21,17 @@ public class Firmante {
     private Integer idDependencia;
     @NotNull
     @Size(min = 8,max = 8)
-    @Column(name = "fi_docide")
+    @Column(name = "fi_docide",unique = true)
     private String docide;
     @NotNull
     @Column(name = "fi_nombre")
     private String nombre;
     @Email(message = "Este campo debe respetar el formato de un correo.")
     @NotNull
-    @Column(name = "fi_correo")
+    @Column(name = "fi_correo",unique = true)
     private String correo;
     @Email(message = "Este campo debe respetar el formato de un correo.")
-    @Column(name = "fi_correoa")
+    @Column(name = "fi_correoa",unique = true)
     private String correoA;
     @Column(name = "fi_descripcion")
     private String descripcion;
