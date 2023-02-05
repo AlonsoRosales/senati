@@ -20,7 +20,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         try {
             authCredentials= new ObjectMapper().readValue(request.getReader(),AuthCredentials.class);
-            System.out.println(authCredentials.getPassword());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -34,9 +33,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetailsImpl userDetails= (UserDetailsImpl) authResult.getPrincipal();
-        String token = TokenUtils.createToken(userDetails.getName(),userDetails.getUsername());
+        String token = TokenUtils.createToken(userDetails.getName(),userDetails.getUsername(), userDetails.getIdUser());
 
         response.addHeader("Authorization","Bearer "+token);
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.getWriter().write("Token: "+token);
         response.getWriter().flush();
         super.successfulAuthentication(request, response, chain, authResult);
     }

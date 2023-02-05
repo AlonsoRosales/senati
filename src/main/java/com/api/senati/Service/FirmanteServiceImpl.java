@@ -1,5 +1,6 @@
 package com.api.senati.Service;
 
+import com.api.senati.Config.CustomException;
 import com.api.senati.DTO.FirmanteDTO;
 import com.api.senati.Entity.Firmante;
 import com.api.senati.Repository.FirmanteRepository;
@@ -32,11 +33,20 @@ public class FirmanteServiceImpl implements FirmanteService {
     }
 
     @Override
-    public Firmante createFirmante(Firmante firmante) {
+    public Firmante createFirmante(Firmante firmante) throws CustomException {
         Set<ConstraintViolation<Firmante>> violations = validator.validate(firmante);
         if (!violations.isEmpty()) {
             throw new ConstraintViolationException(violations);
         }
+        if (firmanteRepository.findByDocide(firmante.getDocide()).isPresent()) {
+            throw new CustomException("El firmante con el documento de identidad N°: " + firmante.getDocide() + " ya se encuentra registrado.");
+        }
+        ObjectStorageService objectStorageService = new ObjectStorageService();
+        String ruta = objectStorageService.saveFile(firmante.getFoto(), firmante.getDocide(),"");
+        if (ruta.equals("-1")) {
+            throw new CustomException("Error al guardar la imagen, asegurate de colocar un arreglo correcto.");
+        }
+        firmante.setFoto(ruta);
         firmante.setModificado(Timestamp.from(Instant.now()));
         firmante.setRegistro(Timestamp.from(Instant.now()));
         firmante.setEstado("1");
@@ -45,7 +55,6 @@ public class FirmanteServiceImpl implements FirmanteService {
 
     @Override
     public Firmante actualizarFirmante(Integer idFirmante, FirmanteDTO firmanteDTO) {
-        System.out.println(idFirmante);
         Firmante firmante = firmanteRepository.findByIdFirmante(idFirmante).orElse(null);
         if (firmante == null) {
             return null;
@@ -56,8 +65,10 @@ public class FirmanteServiceImpl implements FirmanteService {
         }
         firmante.setModificado(Timestamp.from(Instant.now()));
         firmante.setModpor(firmanteDTO.getModpor());
-        if (firmanteDTO.getDocide() != null && !firmanteDTO.getDocide().isEmpty())
-            firmante.setDocide(firmanteDTO.getDocide());
+        /*
+         * TODO: Por evaluar este campo
+         if (firmanteDTO.getDocide() != null && !firmanteDTO.getDocide().isEmpty())
+            firmante.setDocide(firmanteDTO.getDocide());*/
         if (firmanteDTO.getNombre() != null && !firmanteDTO.getNombre().isEmpty())
             firmante.setNombre(firmanteDTO.getNombre());
         if (firmanteDTO.getCorreo() != null && !firmanteDTO.getCorreo().isEmpty())
@@ -76,5 +87,19 @@ public class FirmanteServiceImpl implements FirmanteService {
             firmante.setCargo(firmanteDTO.getCargo());
         if (firmanteDTO.getRol() != null && !firmanteDTO.getRol().isEmpty()) firmante.setRol(firmanteDTO.getRol());
         return firmanteRepository.save(firmante);
+    }
+
+    @Override
+    public boolean eliminarFirmante(Integer idFirmante, Integer idUser) {
+        Firmante firmante = firmanteRepository.findByIdFirmante(idFirmante).orElse(null);
+        if (firmante == null) {
+            return false;
+        }
+        firmante.setEstado("0");
+        firmante.setModpor(idUser);
+        firmante.setObservacion("Firmante eliminado");
+        firmante.setModificado(Timestamp.from(Instant.now()));
+        firmanteRepository.save(firmante);
+        return true;
     }
 }

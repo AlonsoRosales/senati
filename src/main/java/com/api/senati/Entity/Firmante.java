@@ -16,18 +16,18 @@ public class Firmante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "fi_idfirmante")
     private Integer idFirmante;
-    @NotNull
+    @NotNull(message = "Es un campo obligatorio.")
     @Column(name = "fi_iddependencia")
     private Integer idDependencia;
-    @NotNull
-    @Size(min = 8,max = 8)
+    @NotNull(message = "Es un campo obligatorio.")
+    @Size(min = 8,max = 8,message = "El documento de identidad tiene un tamaño de 8.")
     @Column(name = "fi_docide",unique = true)
     private String docide;
-    @NotNull
+    @NotNull(message = "Es un campo obligatorio.")
     @Column(name = "fi_nombre")
     private String nombre;
     @Email(message = "Este campo debe respetar el formato de un correo.")
-    @NotNull
+    @NotNull(message = "Es un campo obligatorio.")
     @Column(name = "fi_correo",unique = true)
     private String correo;
     @Email(message = "Este campo debe respetar el formato de un correo.")

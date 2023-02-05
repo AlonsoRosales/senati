@@ -3,6 +3,7 @@ package com.api.senati.Entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,8 +15,10 @@ public class Formato {
     @Column(name = "fo_idformato")
     private Integer idFormato;
     @Column(name = "fo_iddependencia")
+    @NotNull(message = "Es un campo obligatorio.")
     private Integer idDependencia;
     @Column(name = "fo_nombre")
+    @NotNull(message = "Es un campo obligatorio.")
     private String nombre;
     @Column(name = "fo_descripcion")
     private String descripcion;
@@ -32,9 +35,12 @@ public class Formato {
     @Column(name = "fo_estado")
     private String estado;
     @Column(name = "fo_alto")
+    @NotNull(message = "Es un campo obligatorio.")
     private Integer alto;
     @Column(name = "fo_ancho")
+    @NotNull(message = "Es un campo obligatorio.")
     private Integer ancho;
     @Column(name = "fo_tipo")
+    @NotNull(message = "Es un campo obligatorio.")
     private String tipo;
 }
