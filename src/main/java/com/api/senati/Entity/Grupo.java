@@ -3,6 +3,8 @@ package com.api.senati.Entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -15,10 +17,16 @@ public class Grupo {
     @Column(name = "gr_idgrupo")
     private Integer idGrupo;
     @Column(name = "gr_iddependencia")
+    @NotNull(message = "Es un campo obligatorio.")
+    @NotBlank(message = "Este campo no puede ser vacío.")
     private Integer idDependencia;
     @Column(name = "gr_idformato")
+    @NotNull(message = "Es un campo obligatorio.")
+    @NotBlank(message = "Este campo no puede ser vacío.")
     private Integer idFormato;
     @Column(name = "gr_nombre")
+    @NotNull(message = "Es un campo obligatorio.")
+    @NotBlank(message = "Este campo no puede ser vacío.")
     private String nombre;
     @Column(name = "gr_fechaini")
     private Date inicio;
@@ -41,5 +49,7 @@ public class Grupo {
     @Column(name = "gr_urlplantilla")
     private String urlPlantilla;
     @Column(name = "gr_idtipo")
+    @NotNull(message = "Es un campo obligatorio.")
+    @NotBlank(message = "Este campo no puede ser vacío.")
     private Integer idTipo;
 }
